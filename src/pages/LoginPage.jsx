@@ -1,0 +1,110 @@
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { login } from '../api/auth.api';
+import { toast } from 'react-hot-toast';
+import { jwtDecode } from 'jwt-decode';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Row, Card, Col, Form, FormGroup, FormControl, FormLabel, Button, Container, Image } from 'react-bootstrap';
+import FondoSvg from '../assets/fondo.svg';
+import Logo from '../assets/logo-essalud.svg';
+
+export function LoginPage() {
+    const [credentials, setCredentials] = useState({
+        username: '',
+        password: '',
+    });
+
+    const [error, setError] = useState(null);
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = 'https://www.google.com/recaptcha/api.js?render=6LfJ-TkpAAAAAGk-luwLSzw3ihrxMprK85ckCalL';
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+        return () => {
+            // Cleanup: remove the script when the component unmounts
+            document.head.removeChild(script);
+        };
+    }, []);
+
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        try {
+            // Use the reCAPTCHA v3 API to verify the user
+            const capResponse = await window.grecaptcha.execute('6LfJ-TkpAAAAAGk-luwLSzw3ihrxMprK85ckCalL', {
+                action: 'login',
+            });
+
+            if (!capResponse) {
+                toast.error('Validación reCAPTCHA fallida. Por favor, inténtalo de nuevo.');
+                return;
+            }
+
+            const response = await login({ ...credentials, recaptchaToken: capResponse });
+            const accessToken = response.data.token;
+            const expirationTime = jwtDecode(accessToken).exp;
+            localStorage.setItem('access', accessToken);
+            localStorage.setItem('expirationTime', expirationTime);
+            toast.success('Sesión iniciada correctamente.');
+            navigate('/menu');
+        } catch (error) {
+            setError('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+            console.error('Credenciales incorrectas. Por favor, inténtalo de nuevo.', error);
+            toast.error('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
+        }
+    };
+
+    const handleChange = (e) => {
+        setCredentials({
+            ...credentials,
+            [e.target.name]: e.target.value,
+        });
+    };
+
+    return (
+        <Container
+            style={{ background: `url(${FondoSvg}) center fixed`, backgroundSize: 'cover', minHeight: '100vh', minWidth: '100%' }}
+            fluid
+            className="d-flex align-items-center justify-content-center "
+        >
+            <Row>
+                <Col lg={7} md={6} xs={12} className="d-flex justify-content-center align-items-center p-5">
+                    <div className="text-white">
+                        <h1 className="d-block d-sm-none text-center">Sistema de Analítica de Datos</h1>
+                        <h1 className="d-none d-md-block">Sistema de Analítica de Datos</h1>
+                        <p className="d-none d-sm-block">
+                            Sistema institucional de EsSalud que pone a disposición los tableros de mando y control desarrollados con
+                            business intelligence y business analytics para la toma de decisiones en el marco del gobierno de datos.
+                        </p>
+                    </div>
+                </Col>
+                <Col lg={5} md={6} xs={12} className="d-flex justify-content-center align-items-center">
+                    <Card className="p-4">
+                        <Form onSubmit={handleLogin}>
+                            <div className="text-center mb-4">
+                                <Image src={Logo} alt="Logo" />
+                            </div>
+
+                            <FormGroup controlId="username" className="mb-3">
+                                <FormLabel>Usuario</FormLabel>
+                                <FormControl type="text" name="username" value={credentials.username} onChange={handleChange} />
+                            </FormGroup>
+
+                            <FormGroup controlId="password" className="mb-3">
+                                <FormLabel>Contraseña</FormLabel>
+                                <FormControl type="password" name="password" value={credentials.password} onChange={handleChange} />
+                            </FormGroup>
+
+                            <Button variant="primary" type="submit" className="w-100 mt-3">
+                                Entrar
+                            </Button>
+                        </Form>
+                    </Card>
+                </Col>
+            </Row>
+        </Container>
+    );
+}
