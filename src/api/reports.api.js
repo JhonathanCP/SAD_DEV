@@ -17,11 +17,11 @@ authApi.interceptors.request.use((config) => {
         config.headers['x-access-token'] = token;
     }
     // Agregar un parámetro de consulta único
-    config.params = {
-        timestamp: new Date().getMilliseconds(),
-    };
     return config;
 });
 
 export const getReports = () => authApi.get("/");
-export const createReports = () => authApi.post("/");
+export const getReport = (reportId) => authApi.get(`/${reportId}/`);
+export const createReport = (reportData) => authApi.post("/", reportData);
+export const updateReport = (reportId, reportData) => authApi.put(`/${reportId}/`, reportData);
+export const deleteReport = (reportId) => authApi.delete(`/${reportId}/`);

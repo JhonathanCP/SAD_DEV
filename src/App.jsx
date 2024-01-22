@@ -3,6 +3,10 @@ import { DashboardPage } from './pages/DashboardPage';
 import { LoginPage } from './pages/LoginPage';
 import { MenuPage } from './pages/MenuPage';
 import { InfoComponent } from './components/InfoComponent';
+import { UsersList } from './components/UsersList';
+import { EditGroupComponent } from './components/EditGroupComponent';
+import { EditReportComponent } from './components/EditReportComponent';
+import { UserPermissionComponent } from './components/UserPermissionComponent';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import PrivateRoutes from './components/PrivateRoutes';
@@ -19,6 +23,12 @@ function App() {
                     <Route path="/menu" element={<MenuPage />} />
                     <Route path="/dashboard/:id" element={<DashboardPage />} />
                     <Route path="/admin/info" element={<InfoComponent />} />
+                    <Route path="/admin/users" element={<UsersList />} />
+                    <Route path="/admin/user/:id" element={<UserPermissionComponent />} />
+                    <Route path="/admin/editar/grupo/" element={<EditGroupComponent />} />
+                    <Route path="/admin/editar/grupo/:id" element={<EditGroupComponent />} />
+                    <Route path="/admin/editar/reporte/" element={<EditReportComponent />} />
+                    <Route path="/admin/editar/reporte/:id" element={<EditReportComponent />} />
                 </Route>
             </Routes>
             <Toaster position="top-center" reverseOrder={false} />

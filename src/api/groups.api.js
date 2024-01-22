@@ -17,12 +17,12 @@ authApi.interceptors.request.use((config) => {
         config.headers['x-access-token'] = token;
     }
     // Agregar un parámetro de consulta único
-    config.params = {
-        timestamp: new Date().getMilliseconds(),
-    };
     return config;
 });
 
 export const getGroups = () => authApi.get("/");
-export const createGroups = () => authApi.post("/");
+export const getGroup = (groupId) => authApi.get(`/${groupId}/`);
+export const createGroup = (groupData) => authApi.post("/", groupData);
 export const getInfo = () => authApi.get("/panel");
+export const updateGroup = (groupId, groupData) => authApi.put(`/${groupId}/`, groupData);
+export const deleteGroup = (groupId) => authApi.delete(`/${groupId}/`);
