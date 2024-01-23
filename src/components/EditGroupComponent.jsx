@@ -126,7 +126,7 @@ export function EditGroupComponent() {
                     </div>
                     <div className="mb-3">
                         <label htmlFor="icono" className="form-label">
-                            Icono: https://icons.getbootstrap.com/
+                            Icono: (Solo introducir nombre del ícono) <a href="https://icons.getbootstrap.com/" target="_blank" rel="noopener noreferrer">Ver íconos</a>
                         </label>
                         <input
                             type="text"

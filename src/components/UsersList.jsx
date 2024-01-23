@@ -28,37 +28,39 @@ export function UsersList() {
     return (
         <Container fluid className='p-0'>
             <AdminNavBarComponent></AdminNavBarComponent>
-            <div className="container mt-4">
+            <Container fluid className='px-5 py-4'>
                 <h2>Listado de Usuarios</h2>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Username</th>
-                            <th>Nombres</th>
-                            <th>Apellidos</th>
-                            <th>Correo</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {users.map((user) => (
-                            <tr key={user.id}>
-                                <td>{user.id}</td>
-                                <td>{user.username}</td>
-                                <td>{user.nombres}</td>
-                                <td>{user.apellidos}</td>
-                                <td>{user.correo}</td>
-                                <td>
-                                    <Link to={`/admin/user/${user.id}`} className="btn btn-primary">
-                                        Editar Permisos
-                                    </Link>
-                                </td>
+                <div className="table-responsive">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Username</th>
+                                <th>Nombres</th>
+                                <th>Apellidos</th>
+                                <th>Correo</th>
+                                <th>Acciones</th>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-            </div>
+                        </thead>
+                        <tbody>
+                            {users.map((user) => (
+                                <tr key={user.id}>
+                                    <td>{user.id}</td>
+                                    <td>{user.username}</td>
+                                    <td>{user.nombres}</td>
+                                    <td>{user.apellidos}</td>
+                                    <td>{user.correo}</td>
+                                    <td>
+                                        <Link to={`/admin/user/${user.id}`} className="btn btn-primary">
+                                            Editar Permisos
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            </Container>
         </Container>
     );
 };

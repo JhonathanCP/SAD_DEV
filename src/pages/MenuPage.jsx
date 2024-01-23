@@ -84,8 +84,8 @@ export function MenuPage() {
     return (
         <Container fluid className='p-0'>
             <Container fluid className='p-0' style={{ minHeight: '2.5vh'}}>
-                <Navbar fluid style={{ backgroundColor: "#0064AF", boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)' }} data-bs-theme="dark" className='p-0'>
-                    <Container fluid className='mx-5 px-2 py-1'>
+                <Navbar fluid style={{ backgroundColor: "#0064AF", boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)' }} data-bs-theme="dark" className='py-0'>
+                    <Container fluid className='mx-5 px-5 py-1'>
                         <Col className='col-auto me-auto'>
                             <Navbar.Brand>
                                 <img
@@ -110,7 +110,7 @@ export function MenuPage() {
             </Container>
             <Container fluid style={{ backgroundColor: '#0064AF', minHeight: '25vh' }}>
 
-                <Row className='px-4 py-3 d-flex align-items-center justify-content-center'>
+                <Row className='px-5 py-3 d-flex align-items-center justify-content-center'>
                     <Col xs={12} md={12} xl={7} className='px-5 py-4 text-white ' data-aos="fade-in" data-aos-delay="250">
                         <h2 className='d-xl-none text-center'>Sistema de Analítica <span>de Datos</span></h2>
                         <h2 className='d-none d-xl-block'>Sistema de Analítica <span>de Datos</span></h2>

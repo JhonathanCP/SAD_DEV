@@ -95,7 +95,7 @@ export function EditReportComponent() {
         <Container fluid className='p-0'>
             <AdminNavBarComponent></AdminNavBarComponent>
             <div className="container mt-4">
-                <h2>Editar Reporte</h2>
+            <h2>{id ? 'Editar Reporte' : 'Crear Reporte'}</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="nombre" className="form-label">
@@ -154,7 +154,7 @@ export function EditReportComponent() {
                             Grupo:
                         </label>
                         <select
-                            className="form-control"
+                            className="form-control form-select"
                             id="grupo"
                             name="groupId"
                             value={report['groupId']}

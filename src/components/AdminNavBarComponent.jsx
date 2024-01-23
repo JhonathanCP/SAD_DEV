@@ -42,28 +42,41 @@ export function AdminNavBarComponent() {
 
     return (
         <Container fluid className='p-0' style={{ minHeight: '2.5vh' }}>
-        <Navbar fixed="true" style={{ backgroundColor: "#0064AF", boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)' }} data-bs-theme="dark" className='p-0 align-items-center justify-content-center'>
-            <Container fluid className='mx-5 px-5 py-1'>
+            <Navbar style={{ backgroundColor: "#0064AF", boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)' }} data-bs-theme="dark" className='p-0 align-items-center justify-content-center'>
+                <Container fluid className='mx-5 px-5 py-1'>
 
-                <Navbar.Brand className='d-none d-xl-block'>
-                    <img
-                        src={Logo}
-                        style={{ width: "140.5px", height: "29.98px" }}
-                        className="d-inline-block align-top img-fluid"
-                        alt="React Bootstrap logo"
-                    />
-                </Navbar.Brand>
-                <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
-                    <Nav>
-                        <NavDropdown title={usuario} id="usuario-dropdown">
-                            <NavDropdown.Item className='small' onClick={() => handleLogout()}>
-                                <span><i className={`bi bi-box-arrow-left`}></i></span> Cerrar sesión
-                            </NavDropdown.Item>
-                        </NavDropdown>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </Navbar>
-    </Container>
+                    <Navbar.Brand className='d-none d-xl-block'>
+                        <img
+                            src={Logo}
+                            style={{ width: "140.5px", height: "29.98px" }}
+                            className="d-inline-block align-top img-fluid"
+                            alt="React Bootstrap logo"
+                        />
+                    </Navbar.Brand>
+                    <Navbar.Collapse id="basic-navbar-nav" className="justify-content-start">
+                        <Nav>
+                            <Nav.Link onClick={() => navigate(`/menu`)}>
+                                <span><i className={`bi bi-house text-white`}></i></span>
+                            </Nav.Link>
+                        </Nav>
+                    </Navbar.Collapse>
+                    <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
+                        <Nav>
+                            <Nav.Link onClick={() => navigate(`/admin/users`)}>
+                                <span><i className={`bi bi-people text-white`}></i><span className='d-none d-sm-inline'> Listado de usuarios</span></span>
+                            </Nav.Link>
+                            <Nav.Link onClick={() => navigate(`/admin/info`)}>
+                                <span><i className={`bi bi-bar-chart  text-white`}></i><span className='d-none d-sm-inline'> Listado de grupos y reportes</span></span>
+                            </Nav.Link>
+                            <NavDropdown title={usuario} id="usuario-dropdown">
+                                <NavDropdown.Item className='small' onClick={() => handleLogout()}>
+                                    <span><i className={`bi bi-box-arrow-left`}></i></span> Cerrar sesión
+                                </NavDropdown.Item>
+                            </NavDropdown>
+                        </Nav>
+                    </Navbar.Collapse>
+                </Container>
+            </Navbar>
+        </Container>
     );
 }

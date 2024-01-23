@@ -38,83 +38,80 @@ export function InfoComponent() {
                     </Col>
                     <Col md={1}>
                         <Link to={`/admin/editar/grupo/`} className="btn btn-success">
-                            Agregar
+                            Crear
                         </Link>
                     </Col>
                 </Row>
+                <div className="table-responsive">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th className='col-1'>ID</th>
+                                <th className='col-5'>Nombre</th>
+                                <th className='col-3'>Icono</th>
+                                <th className='col-2'>Activo</th>
+                                <th className='col-1'>Acciones</th>
 
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Icono</th>
-                            <th>Activo</th>
-                            <th>Acciones</th>
-
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {groups.map((group) => (
-                            <tr key={group.id}>
-                                <td>{group.id}</td>
-                                <td>{group.nombre}</td>
-                                <td>{group.descripcion}</td>                                
-                                <td>{group.icono}</td>
-                                <td>{group.activo ? 'Sí' : 'No'}</td>
-                                <td>
-                                    <Link to={`/admin/editar/grupo/${group.id}`} className="btn btn-primary">
-                                        Editar
-                                    </Link>
-                                </td>
                             </tr>
-                        ))}
-                    </tbody>
-                </table>
-
-
+                        </thead>
+                        <tbody>
+                            {groups.map((group) => (
+                                <tr key={group.id}>
+                                    <td>{group.id}</td>
+                                    <td>{group.nombre}</td>
+                                    <td>{group.icono}</td>
+                                    <td>{group.activo ? 'Sí' : 'No'}</td>
+                                    <td>
+                                        <Link to={`/admin/editar/grupo/${group.id}`} className="btn btn-primary">
+                                            Editar
+                                        </Link>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
                 <Row>
                     <Col md={11}>
                         <h2>Listado de Reportes</h2>
                     </Col>
                     <Col md={1}>
                         <Link to={`/admin/editar/reporte/`} className="btn btn-success">
-                            Agregar
+                            Crear
                         </Link>
                     </Col>
                 </Row>
-                <table className="table">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Descripción</th>
-                            <th>Grupo</th>
-                            <th>Activo</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {reports.map((report) => (
-                            <tr key={report.id}>
-                                <td>{report.id}</td>
-                                <td>{report.nombre}</td>
-                                <td>{report.descripcion}</td>
-                                <td>{groups.find((group) => group.id === report.groupId)?.nombre || 'No asignado'}</td>
-                                <td>{report.activo ? 'Sí' : 'No'}</td>
-                                <td>
-                                    <Link to={`/admin/editar/reporte/${report.id}`} className="btn btn-primary mx-1">
-                                        Editar
-                                    </Link>
-                                    {/* <Link to={`/admin/editar/reporte/${report.id}`} className="btn btn-danger mx-1">
+                <div className="table-responsive">
+                    <table className="table">
+                        <thead>
+                            <tr>
+                                <th className='col-1'>ID</th>
+                                <th className='col-5'>Nombre</th>
+                                <th className='col-3'>Grupo</th>
+                                <th className='col-2'>Activo</th>
+                                <th className='col-1'>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {reports.map((report) => (
+                                <tr key={report.id}>
+                                    <td>{report.id}</td>
+                                    <td>{report.nombre}</td>
+                                    <td>{groups.find((group) => group.id === report.groupId)?.nombre || 'No asignado'}</td>
+                                    <td>{report.activo ? 'Sí' : 'No'}</td>
+                                    <td>
+                                        <Link to={`/admin/editar/reporte/${report.id}`} className="btn btn-primary mx-1">
+                                            Editar
+                                        </Link>
+                                        {/* <Link to={`/admin/editar/reporte/${report.id}`} className="btn btn-danger mx-1">
                                         Eliminar
                                     </Link> */}
-                                </td>
-                            </tr>
-                        ))}
-                    </tbody>
-                </table>
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </Container>
         </Container>
     );

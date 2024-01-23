@@ -48,7 +48,7 @@ export function UserPermissionComponent() {
         try {
             await removeGroup(id, group);
             const updatedUser = await getUser(id);
-            toast.success('Grupo removido correctamente');            
+            toast.success('Grupo removido correctamente');
             setUser(updatedUser.data);
         } catch (error) {
             console.error('Error removing group from user', error);
@@ -74,7 +74,7 @@ export function UserPermissionComponent() {
                 toast.error('Seleccione una opción');
                 return;
             }
-    
+
             await addReport(id, selectedReport);
             const updatedUser = await getUser(id);
             toast.success('Reporte agregado correctamente');
@@ -83,14 +83,14 @@ export function UserPermissionComponent() {
             console.error('Error adding report to user', error);
         }
     };
-    
+
     const handleAddGroup = async () => {
         try {
             if (!selectedGroup) {
                 toast.error('Seleccione una opción');
                 return;
             }
-    
+
             await addGroup(id, selectedGroup);
             const updatedUser = await getUser(id);
             toast.success('Grupo agregado correctamente');
@@ -118,68 +118,135 @@ export function UserPermissionComponent() {
     return (
         <Container fluid className='p-0'>
             <AdminNavBarComponent></AdminNavBarComponent>
-            <Container fluid className='p-0'>
-            <div className="container mt-4">
-                <h2>Permisos de: {user.username}</h2>
-
+            <Container fluid className='px-5 py-4'>
+                <div className="row">
+                    <div className="col-10">
+                        <h2>Permisos de: {user.username}</h2>
+                    </div>
+                    <div className="col-2">
+                        <div className="mt-4">
+                            <button className="btn btn-success" onClick={handleAddAllPermissions}>Agregar Todos los Permisos</button>
+                        </div>
+                    </div>
+                </div>
                 <div className="mb-3">
                     <label className="form-label">Agregar Permiso de Grupo:</label>
-                    <div className="d-flex">
-                        <select className="form-select me-2" value={selectedGroup} onChange={(e) => setSelectedGroup(e.target.value)}>
-                            <option value="" disabled>
-                                Seleccione un grupo
-                            </option>
-                            {groups.map((group) => (
-                                <option key={group.id} value={group.id}>
-                                    {group.id}: {group.nombre}
+                    <div className="row">
+                        <div className="col-10">
+                            <select className="form-select me-2" value={selectedGroup} onChange={(e) => setSelectedGroup(e.target.value)}>
+                                <option value="" disabled>
+                                    Seleccione un grupo
                                 </option>
-                            ))}
-                        </select>
-                        <button className="btn btn-primary" onClick={() => handleAddGroup(selectedGroup)}>Agregar Permiso</button>
+                                {groups.map((group) => (
+                                    <option key={group.id} value={group.id}>
+                                        {group.id}: {group.nombre}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="col-2">
+                            <button className="btn btn-primary" onClick={() => handleAddGroup(selectedGroup)}>Agregar Permiso</button>
+                        </div>
                     </div>
                 </div>
-                
                 <div className="mb-3">
                     <label className="form-label">Agregar Permiso de Reporte:</label>
-                    <div className="d-flex">
-                        <select className="form-select me-2" value={selectedReport} onChange={(e) => setSelectedReport(e.target.value)}>
-                            <option value="" disabled>
-                                Seleccione un reporte
-                            </option>
-                            {reports.map((report) => (
-                                <option key={report.id} value={report.id}>
-                                    {report.id}: {report.nombre}
+                    <div className="row">
+                        <div className="col-10">
+                            <select className="form-select" value={selectedReport} onChange={(e) => setSelectedReport(e.target.value)}>
+                                <option value="" disabled>
+                                    Seleccione un reporte
                                 </option>
-                            ))}
-                        </select>
-                        <button className="btn btn-primary" onClick={() => handleAddReport(selectedReport)}>Agregar Permiso</button>
+                                {reports.map((report) => (
+                                    <option key={report.id} value={report.id}>
+                                        {report.id}: {report.nombre}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div className="col-2">
+                            <button className="btn btn-primary" onClick={() => handleAddReport(selectedReport)}>Agregar Permiso</button>
+                        </div>
                     </div>
                 </div>
-
-                <h3>Permisos de Reporte:</h3>
-                <ul>
-                    {user.reports.map((report) => (
-                        <li key={report.id}>
-                            {`Reporte ID: ${report.id} - Nombre: ${report.nombre}`}
-                            <button className="btn btn-danger ms-2" onClick={() => handleRemoveReport(report.id)}>Eliminar Permiso</button>
-                        </li>
-                    ))}
-                </ul>
-
-                <h3>Permisos de Grupo:</h3>
-                <ul>
-                    {user.groups.map((group) => (
-                        <li key={group.id}>
-                            {`Grupo ID: ${group.id} - Nombre: ${group.nombre}`}
-                            <button className="btn btn-danger ms-2" onClick={() => handleRemoveGroup(group.id)}>Eliminar Permiso</button>
-                        </li>
-                    ))}
-                </ul>
-
-                <div className="mt-3">
-                    <button className="btn btn-success" onClick={handleAddAllPermissions}>Agregar Todos los Permisos</button>
+                <div className="my-5">
+                    <h3>Permisos de Reporte:</h3>
+                    <table className="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <div className="row">
+                                    <div className="col-1">
+                                        <th>ID</th>
+                                    </div>
+                                    <div className="col-9">
+                                        <th>Nombre</th>
+                                    </div>
+                                    <div className="col-2">
+                                        <th>Acciones</th>
+                                    </div>
+                                </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {user.reports.map((report) => (
+                                <tr key={report.id}>
+                                    <div className="row">
+                                        <div className="col-1">
+                                            <td>{report.id}</td>
+                                        </div>
+                                        <div className="col-9">
+                                            <td>{report.nombre}</td>
+                                        </div>
+                                        <div className="col-2">
+                                            <td>
+                                                <button className="btn btn-danger" onClick={() => handleRemoveReport(report.id)}>Eliminar Permiso</button>
+                                            </td>
+                                        </div>
+                                    </div>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
                 </div>
-            </div>
+                <div className="my-5">
+                    <h3>Permisos de Grupo:</h3>
+                    <table className="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <div className="row">
+                                    <div className="col-1">
+                                        <th>ID</th>
+                                    </div>
+                                    <div className="col-9">
+                                        <th>Nombre</th>
+                                    </div>
+                                    <div className="col-2">
+                                        <th>Acciones</th>
+                                    </div>
+                                </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {user.groups.map((group) => (
+                                <tr key={group.id}>
+                                    <div className="row">
+                                        <div className="col-1">
+                                            <td>{group.id}</td>
+                                        </div>
+                                        <div className="col-9">
+                                            <td>{group.nombre}</td>
+                                        </div>
+                                        <div className="col-2">
+                                            <td>
+                                                <button className="btn btn-danger" onClick={() => handleRemoveGroup(group.id)}>Eliminar Permiso</button>
+                                            </td>
+                                        </div>
+                                    </div>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
             </Container>
         </Container>
     );

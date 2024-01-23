@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Logo from '../assets/logo-essalud-blanco.svg';
 import Img from '../assets/hero-img.svg';
-import { Accordion, Container, Navbar, Nav, NavDropdown, Row, Col, Button, Offcanvas } from 'react-bootstrap';
+import { Accordion, Container, Navbar, Nav, NavDropdown, Row, Col, Card } from 'react-bootstrap';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
 import { useParams } from 'react-router-dom';
@@ -30,7 +30,19 @@ export function DashboardPage() {
     const [usuario, setUsuario] = useState('');
     const navigate = useNavigate();
     const [show, setShow] = useState(false);
+    const [isHovered, setIsHovered] = useState(Array(grupos.length).fill(false));
 
+    const handleMouseEnter = (id) => {
+        const newHoverState = [...isHovered];
+        newHoverState[id] = true;
+        setIsHovered(newHoverState);
+    };
+
+    const handleMouseLeave = (id) => {
+        const newHoverState = [...isHovered];
+        newHoverState[id] = false;
+        setIsHovered(newHoverState);
+    };
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
@@ -138,8 +150,34 @@ export function DashboardPage() {
                 </Navbar>
             </Container>
 
-            <Container fluid style={{ backgroundColor: "#f0f0f0", minHeight: '98vh' }} className='p-0'>
-                <iframe style={{ minHeight: '98vh', width: '100%' }} src={iframeSrc || (reportes.length > 0 && reportes[0].link)} ></iframe>
+            <Container fluid style={{ backgroundColor: "#f0f0f0", minHeight: '92vh' }} className='p-0'>
+                {/* <iframe style={{ minHeight: '98vh', width: '100%' }} src={iframeSrc || (reportes.length > 0 && reportes[0].link)} ></iframe> */}
+                {iframeSrc ? (
+                    <iframe style={{ minHeight: '97.5vh', width: '100%' }} src={iframeSrc}></iframe>
+                ) : (
+                    <Row style={{ minHeight: '92vh' }} className='d-flex align-items-center justify-content-center py-4 px-5 mx-2' data-aos="fade-up" data-aos-delay="250">
+                        {
+                            reportes.map((reporte) => (
+                                <Col key={reporte.id} xs={12} sm={4} lg={4} style={{ minHeight: '27.235vh' }}>
+                                    <Card border="light" className="d-flex flex-column align-items-center justify-content-center px-1 mx-3" onMouseEnter={() => handleMouseEnter(reporte.id)} onMouseLeave={() => handleMouseLeave(reporte.id)} style={{ height: '16rem', position: 'relative', marginBottom: '20px', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }} onClick={() => handleReporte(reporte.link)}>
+                                        <div className="icon-container mt-3" style={{ position: 'relative', margin: '0 auto', overflow: 'hidden', width: '75px', height: '75px', }} >
+                                            <div className="icon" style={{ position: 'relative', width: '120%', height: '120%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
+                                                <i className={`bi bi-bar-chart`} style={{ color: 'black', fontSize: '56px', transition: 'ease-in-out 0.3s', zIndex: '2', position: 'absolute', }}></i>
+                                                <div style={{ position: 'relative', height: '38%', width: '38%', background: isHovered[reporte.id] ? '#0064AF' : '#eeeeee', borderRadius: '50%', zIndex: '1', top: '-20px', left: '-20px', transition: '0.3s' }} ></div>
+                                            </div>
+                                        </div>
+                                        <Card.Body className="d-flex flex-column align-items-center">
+                                            <Card.Title className="card-title" style={{ borderBottom: `2px solid ${isHovered[reporte.id] ? '#0064AF' : '#eeeeee'}`, transition: '0.3s', textAlign: 'center' }} >{reporte.nombre}</Card.Title>
+                                            <Card.Text className="text-primary-emphasis text-center pt-1 pb-0 d-none d-sm-block" style={{ fontSize: '14.5px' }}>
+                                                {reporte.descripcion}
+                                            </Card.Text>
+                                        </Card.Body>
+                                    </Card>
+                                </Col>
+                            ))
+                        }
+                    </Row>
+                )}
             </Container>
             <Container className='py-0' fluid style={{ backgroundColor: "#f0f0f0", minHeight: '3vh' }}>
                 <Row className='d-flex align-items-center justify-content-center py-0' >
