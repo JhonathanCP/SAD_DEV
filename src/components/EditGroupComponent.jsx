@@ -150,7 +150,15 @@ export function EditGroupComponent() {
                     >
                         Eliminar
                     </button>
-
+                    <button
+                        type="button"
+                        onClick={() => navigate(-1)}
+                        className="btn btn-secondary"
+                        style={{ marginLeft: '10px' }}
+                        // Condición para mostrar el botón solo si hay un ID
+                    >
+                        Cancelar
+                    </button>
                 </form>
             </div>
         </Container>

@@ -120,13 +120,24 @@ export function UserPermissionComponent() {
             <AdminNavBarComponent></AdminNavBarComponent>
             <Container fluid className='px-5 py-4'>
                 <div className="row">
-                    <div className="col-10">
+                    <div className="col-7">
                         <h2>Permisos de: {user.username}</h2>
                     </div>
-                    <div className="col-2">
+                    <div className="col-3">
                         <div className="mt-4">
                             <button className="btn btn-success" onClick={handleAddAllPermissions}>Agregar Todos los Permisos</button>
                         </div>
+                    </div>
+                    <div className="col-2">
+                        <button
+                            type="button"
+                            onClick={() => navigate(-1)}
+                            className="btn btn-secondary"
+                            style={{ marginLeft: '10px' }}
+                        // Condición para mostrar el botón solo si hay un ID
+                        >
+                            Cancelar
+                        </button>
                     </div>
                 </div>
                 <div className="mb-3">

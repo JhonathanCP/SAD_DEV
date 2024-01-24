@@ -19,6 +19,7 @@ function App() {
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/" element={<Navigate to="/login" />} />
+                <Route path="/admin" element={<Navigate to="/admin/info" />} />
                 <Route element={<PrivateRoutes />}>
                     <Route path="/menu" element={<MenuPage />} />
                     <Route path="/dashboard/:id" element={<DashboardPage />} />

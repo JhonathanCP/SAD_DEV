@@ -60,7 +60,7 @@ export function EditReportComponent() {
             [e.target.name]: value,
         });
     };
-    
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -95,7 +95,7 @@ export function EditReportComponent() {
         <Container fluid className='p-0'>
             <AdminNavBarComponent></AdminNavBarComponent>
             <div className="container mt-4">
-            <h2>{id ? 'Editar Reporte' : 'Crear Reporte'}</h2>
+                <h2>{id ? 'Editar Reporte' : 'Crear Reporte'}</h2>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="nombre" className="form-label">
@@ -181,6 +181,15 @@ export function EditReportComponent() {
                         hidden={!id}
                     >
                         Eliminar
+                    </button>
+                    <button
+                        type="button"
+                        onClick={() => navigate(-1)}
+                        className="btn btn-secondary"
+                        style={{ marginLeft: '10px' }}
+                        // Condición para mostrar el botón solo si hay un ID
+                    >
+                        Cancelar
                     </button>
                 </form>
             </div>
