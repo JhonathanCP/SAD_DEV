@@ -124,9 +124,7 @@ export function UserPermissionComponent() {
                         <h2>Permisos de: {user.username}</h2>
                     </div>
                     <div className="col-3">
-                        <div className="mt-4">
-                            <button className="btn btn-success" onClick={handleAddAllPermissions}>Agregar Todos los Permisos</button>
-                        </div>
+                        <button className="btn btn-success" onClick={handleAddAllPermissions}>Agregar Todos los Permisos</button>
                     </div>
                     <div className="col-2">
                         <button
@@ -181,45 +179,6 @@ export function UserPermissionComponent() {
                     </div>
                 </div>
                 <div className="my-5">
-                    <h3>Permisos de Reporte:</h3>
-                    <table className="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <div className="row">
-                                    <div className="col-1">
-                                        <th>ID</th>
-                                    </div>
-                                    <div className="col-9">
-                                        <th>Nombre</th>
-                                    </div>
-                                    <div className="col-2">
-                                        <th>Acciones</th>
-                                    </div>
-                                </div>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {user.reports.map((report) => (
-                                <tr key={report.id}>
-                                    <div className="row">
-                                        <div className="col-1">
-                                            <td>{report.id}</td>
-                                        </div>
-                                        <div className="col-9">
-                                            <td>{report.nombre}</td>
-                                        </div>
-                                        <div className="col-2">
-                                            <td>
-                                                <button className="btn btn-danger" onClick={() => handleRemoveReport(report.id)}>Eliminar Permiso</button>
-                                            </td>
-                                        </div>
-                                    </div>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
-                </div>
-                <div className="my-5">
                     <h3>Permisos de Grupo:</h3>
                     <table className="table table-striped table-hover">
                         <thead>
@@ -250,6 +209,45 @@ export function UserPermissionComponent() {
                                         <div className="col-2">
                                             <td>
                                                 <button className="btn btn-danger" onClick={() => handleRemoveGroup(group.id)}>Eliminar Permiso</button>
+                                            </td>
+                                        </div>
+                                    </div>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+                <div className="my-5">
+                    <h3>Permisos de Reporte:</h3>
+                    <table className="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <div className="row">
+                                    <div className="col-1">
+                                        <th>ID</th>
+                                    </div>
+                                    <div className="col-9">
+                                        <th>Nombre</th>
+                                    </div>
+                                    <div className="col-2">
+                                        <th>Acciones</th>
+                                    </div>
+                                </div>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {user.reports.map((report) => (
+                                <tr key={report.id}>
+                                    <div className="row">
+                                        <div className="col-1">
+                                            <td>{report.id}</td>
+                                        </div>
+                                        <div className="col-9">
+                                            <td>{report.nombre}</td>
+                                        </div>
+                                        <div className="col-2">
+                                            <td>
+                                                <button className="btn btn-danger" onClick={() => handleRemoveReport(report.id)}>Eliminar Permiso</button>
                                             </td>
                                         </div>
                                     </div>
