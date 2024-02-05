@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { getInfo } from '../api/groups.api';
+import { getInfoGroups } from '../api/groups.api';
 import { jwtDecode } from "jwt-decode";
 import { Link, Route, useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
@@ -14,10 +14,8 @@ import AOS from 'aos';
 
 export function MenuPage() {
     const [grupos, setGrupos] = useState([]);
-    const [reportes, setReportes] = useState([]);
-    const [reporteSeleccionado, setReporteSeleccionado] = useState(null);
-    const [grupoExpandido, setGrupoExpandido] = useState(null);
     const [usuario, setUsuario] = useState('');
+    const [rol, setRol] = useState('');
     const navigate = useNavigate();
 
     const handleMouseEnter = (id) => {
@@ -37,7 +35,6 @@ export function MenuPage() {
         const expirationTime = localStorage.getItem('expirationTime');
         if (expirationTime) {
             const currentTime = Math.floor(Date.now() / 1000); // Tiempo actual en segundos
-            console.log(currentTime)
             if (currentTime > expirationTime) {
                 toast('Sesión expirada', {
                     icon: '👏',
@@ -48,14 +45,12 @@ export function MenuPage() {
         }
         const fetchInfo = async () => {
             try {
-                const response = await getInfo();
+                const response = await getInfoGroups();
                 setGrupos(response.data.groups);
-                setReportes(response.data.reports);
             } catch (error) {
                 console.error('Error al obtener la información:', error);
             }
         };
-        console.log(expirationTime)
 
         fetchInfo();
 
@@ -64,14 +59,12 @@ export function MenuPage() {
         if (token) {
             const decodedToken = jwtDecode(token);
             setUsuario(decodedToken.username);
+            setRol(decodedToken.rol);
         }
     }, []);
 
     const [isHovered, setIsHovered] = useState(Array(grupos.length).fill(false));
-    const toggleGrupo = (grupoId) => {
-        setGrupoExpandido(grupoId === grupoExpandido ? null : grupoId);
-        setReporteSeleccionado(null);
-    };
+
     const handleLogout = () => {
         // Lógica para cerrar sesión, por ejemplo, eliminar el token y redirigir al inicio de sesión
         localStorage.removeItem('access');
@@ -82,9 +75,9 @@ export function MenuPage() {
     };
 
     return (
-        <Container fluid className='p-0'>
-            <Container fluid className='p-0' style={{ minHeight: '2.5vh'}}>
-                <Navbar fluid style={{ backgroundColor: "#0064AF", boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)' }} data-bs-theme="dark" className='py-0'>
+        <Container fluid className='px-0'>
+            <Container fluid className='p-0' style={{ minHeight: '2.5vh' }}>
+                <Navbar style={{ backgroundColor: "#0064AF", boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)' }} data-bs-theme="dark" className='py-0'>
                     <Container fluid className='mx-5 px-5 py-1'>
                         <Col className='col-auto me-auto'>
                             <Navbar.Brand>
@@ -99,6 +92,11 @@ export function MenuPage() {
                         <Col className='col-auto ms-auto'>
                             <Navbar.Collapse id="basic-navbar-nav">
                                 <Nav>
+                                    {rol === 'admin' || rol === 'moderator' ? (
+                                        <Nav.Link onClick={() => navigate(`/admin/users`)}>
+                                            <span><i className={`bi bi-gear-fill text-white`}></i><span className='d-none d-sm-inline'> Opciones de administrador</span></span>
+                                        </Nav.Link>
+                                    ) : null}
                                     <NavDropdown className="text-white" title={usuario} id="basic-nav-dropdown" >
                                         <NavDropdown.Item style={{ position: "relative", textAlign: "center" }} onClick={() => handleLogout()}>Cerrar sesión</NavDropdown.Item>
                                     </NavDropdown>
@@ -108,7 +106,7 @@ export function MenuPage() {
                     </Container>
                 </Navbar>
             </Container>
-            <Container fluid style={{ backgroundColor: '#0064AF', minHeight: '25vh' }}>
+            <Container fluid style={{ backgroundColor: '#0064AF', minHeight: '30vh' }}>
 
                 <Row className='px-5 py-3 d-flex align-items-center justify-content-center'>
                     <Col xs={12} md={12} xl={7} className='px-5 py-4 text-white ' data-aos="fade-in" data-aos-delay="250">
@@ -118,22 +116,21 @@ export function MenuPage() {
                         <p className='d-none d-xl-block'>Sistema institucional de ESSALUD que pone a disposición los tableros de mando y control desarrollados con business intelligence y business analytics para la toma de decisiones en el marco del gobierno de datos.</p>
 
                     </Col>
-                    <Col xs={12} md={12} xl={5} className='px-5 py-0 d-flex align-items-center justify-content-center'>
+                    <Col xs={12} md={12} xl={5} className='px-5 d-flex align-items-center justify-content-center'>
                         <img src={Img} className="img-fluid" alt="" data-aos="zoom-out" data-aos-delay="250" />
                     </Col>
                 </Row>
             </Container>
-
-            <Container fluid style={{ backgroundColor: "#f0f0f0", minHeight: '60vh' }} className='pt-5'>
+            <Container fluid style={{ backgroundColor: "#f0f0f0", minHeight: '62vh' }}>
                 {/* <Row className='d-flex align-items-center justify-content-center py-2' style={{ minHeight: '15vh' }}>
                     <Col xs={12} data-aos="fade-up" data-aos-delay="250">
                         <h2 style={{ position: "relative", textAlign: "center" }}>Nuestros Dashboards<span style={{ content: "", position: "absolute", display: "block", width: "100px", height: "3px", background: "#0064AF", left: 0, right: 0, bottom: "-15px", margin: "auto" }} ></span></h2>
                     </Col>
                 </Row> */}
-                <Row className='d-flex align-items-center justify-content-center py-4 px-5 mx-2' data-aos="fade-up" data-aos-delay="250">
+                <Row className='d-flex align-items-center justify-content-center py-5 px-5 mx-2' data-aos="fade-up" data-aos-delay="250">
                     {grupos.map((grupo) => (
-                        <Col key={grupo.id} xs={12} sm={4} lg={3} style={{ minHeight: '27.235vh' }}>
-                            <Card border="light" className="p-2 mx-3" onMouseEnter={() => handleMouseEnter(grupo.id)} onMouseLeave={() => handleMouseLeave(grupo.id)} style={{ position: 'relative', marginBottom: '50px', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate(`/dashboard/${grupo.id}`)}>
+                        <Col key={grupo.id} xs={12} sm={4} lg={3}>
+                            <Card border="light" className="p-2 mx-3 my-5" onMouseEnter={() => handleMouseEnter(grupo.id)} onMouseLeave={() => handleMouseLeave(grupo.id)} style={{ position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column', alignItems: 'center', cursor: 'pointer' }} onClick={() => navigate(`/dashboard/${grupo.id}`)}>
                                 <div className="icon-container" style={{ position: 'relative', margin: '0 auto', overflow: 'hidden', width: '80px', height: '80px', }} >
                                     <div className="icon" style={{ position: 'relative', width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }} >
                                         <i className={`bi bi-${grupo.icono}`} style={{ color: 'black', fontSize: '56px', transition: 'ease-in-out 0.3s', zIndex: '2', position: 'absolute', }}></i>
@@ -147,7 +144,6 @@ export function MenuPage() {
                                             Más información
                                         </a>
                                     </Card.Text> */}
-
                                 </Card.Body>
                             </Card>
                         </Col>

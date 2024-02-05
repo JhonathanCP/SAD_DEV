@@ -10,7 +10,9 @@ import { UserPermissionComponent } from './components/UserPermissionComponent';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import PrivateRoutes from './components/PrivateRoutes';
+import AdminRoutes from './components/AdminRoutes';
 import './App.css'
+import { EditUserComponent } from './components/EditUserComponent';
 
 function App() {
 
@@ -19,17 +21,22 @@ function App() {
             <Routes>
                 <Route path="/login" element={<LoginPage />} />
                 <Route path="/" element={<Navigate to="/login" />} />
-                <Route path="/admin" element={<Navigate to="/admin/info" />} />
+                <Route path="*" element={<Navigate to="/login" />} />
+                <Route path="/admin" element={<Navigate to="/admin/users" />} />
                 <Route element={<PrivateRoutes />}>
                     <Route path="/menu" element={<MenuPage />} />
                     <Route path="/dashboard/:id" element={<DashboardPage />} />
-                    <Route path="/admin/info" element={<InfoComponent />} />
-                    <Route path="/admin/users" element={<UsersList />} />
-                    <Route path="/admin/user/:id" element={<UserPermissionComponent />} />
-                    <Route path="/admin/editar/grupo/" element={<EditGroupComponent />} />
-                    <Route path="/admin/editar/grupo/:id" element={<EditGroupComponent />} />
-                    <Route path="/admin/editar/reporte/" element={<EditReportComponent />} />
-                    <Route path="/admin/editar/reporte/:id" element={<EditReportComponent />} />
+                    <Route element={<AdminRoutes />}>
+                        <Route path="/admin/info" element={<InfoComponent />} />
+                        <Route path="/admin/users" element={<UsersList />} />
+                        <Route path="/admin/user/:id" element={<UserPermissionComponent />} />
+                        <Route path="/admin/editar/grupo/" element={<EditGroupComponent />} />
+                        <Route path="/admin/editar/grupo/:id" element={<EditGroupComponent />} />
+                        <Route path="/admin/editar/reporte/" element={<EditReportComponent />} />
+                        <Route path="/admin/editar/reporte/:id" element={<EditReportComponent />} />
+                        <Route path="/admin/editar/user/" element={<EditUserComponent />} />
+                        <Route path="/admin/editar/user/:id" element={<EditUserComponent />} />
+                    </Route>
                 </Route>
             </Routes>
             <Toaster position="top-center" reverseOrder={false} />

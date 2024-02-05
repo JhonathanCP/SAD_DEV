@@ -1,13 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { getInfo } from '../api/groups.api';
+import { getGroup, getInfoReports } from '../api/groups.api';
 import { jwtDecode } from "jwt-decode";
 import { Link, NavLink, Route, useNavigate } from 'react-router-dom';
 import { toast } from "react-hot-toast";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
 import Logo from '../assets/logo-essalud-blanco.svg';
-import Img from '../assets/hero-img.svg';
-import { Accordion, Container, Navbar, Nav, NavDropdown, Row, Col, Card } from 'react-bootstrap';
+import {Container, Navbar, Nav, NavDropdown, Row, Col, Card } from 'react-bootstrap';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
 import { useParams } from 'react-router-dom';
@@ -16,20 +15,12 @@ export function DashboardPage() {
 
     const [iframeSrc, setIframeSrc] = useState('');
 
-    const { id } = useParams();
-    const [col2Visible, setCol2Visible] = useState(true);
-    const toggleCol2Visibility = () => {
-        setCol2Visible(!col2Visible);
-    };
-
+    const { id } = useParams()
     const [grupos, setGrupos] = useState([]);
     const [grupoActivo, setGrupoActivo] = useState({});
     const [reportes, setReportes] = useState([]);
-    const [reporteSeleccionado, setReporteSeleccionado] = useState(null);
-    const [grupoExpandido, setGrupoExpandido] = useState(null);
     const [usuario, setUsuario] = useState('');
     const navigate = useNavigate();
-    const [show, setShow] = useState(false);
     const [isHovered, setIsHovered] = useState(Array(grupos.length).fill(false));
 
     const handleMouseEnter = (id) => {
@@ -43,23 +34,15 @@ export function DashboardPage() {
         newHoverState[id] = false;
         setIsHovered(newHoverState);
     };
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
-
-    const [show1, setShow1] = useState(false);
-    const handleClose1 = () => setShow1(false);
-    const handleShow1 = () => setShow1(true);
 
 
     useEffect(() => {
 
         const fetchInfo = async () => {
             try {
-                const response = await getInfo();
-                const activo = response.data.groups.filter(group => group.id == id);
-                setGrupoActivo(activo[0].nombre)
-                setGrupos(response.data.groups);
-                const filteredReportes = response.data.reports.filter(report => report.groupId == id);
+                const response = await getInfoReports(id);
+                setGrupoActivo((await getGroup(id)).data.nombre);
+                const filteredReportes = response.data.reports;
                 setReportes(filteredReportes);
             } catch (error) {
                 console.error('Error al obtener la información:', error);
@@ -179,7 +162,7 @@ export function DashboardPage() {
                     </Row>
                 )}
             </Container>
-            <Container className='py-0' fluid style={{ backgroundColor: "#f0f0f0", minHeight: '3vh' }}>
+            <Container fluid className='py-0' style={{ backgroundColor: "#f0f0f0", minHeight: '3vh' }}>
                 <Row className='d-flex align-items-center justify-content-center py-0' >
                     <div className="text-center small">
                         {/* <img src={LogoA} alt="Logo" style={{width: "140.5px", height: "29.98px"}} /> */}

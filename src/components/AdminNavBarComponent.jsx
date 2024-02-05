@@ -63,6 +63,12 @@ export function AdminNavBarComponent() {
                     <Navbar.Collapse id="basic-navbar-nav" className="justify-content-end">
                         <Nav>
                             <Nav.Link onClick={() => navigate(`/admin/users`)}>
+                                <span><i className={`bi bi-send text-white`}></i><span className='d-none d-sm-inline'> Solicitud de reportes</span></span>
+                            </Nav.Link>
+                            <Nav.Link onClick={() => navigate(`/admin/users`)}>
+                                <span><i className={`bi bi-person-lines-fill text-white`}></i><span className='d-none d-sm-inline'> Solicitud de usuarios</span></span>
+                            </Nav.Link>
+                            <Nav.Link onClick={() => navigate(`/admin/users`)}>
                                 <span><i className={`bi bi-people text-white`}></i><span className='d-none d-sm-inline'> Listado de usuarios</span></span>
                             </Nav.Link>
                             <Nav.Link onClick={() => navigate(`/admin/info`)}>

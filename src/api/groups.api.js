@@ -7,7 +7,7 @@ const URL =
 
 const authApi = axios.create({
     baseURL: 'https://sad.essalud.gob.pe/api/groups/',
-    // baseURL: 'http://10.0.28.15:4000/groups/',
+    baseURL: 'http://10.0.28.15:4000/groups/',
 });
 
 // Interceptor para incluir el token en los encabezados de todas las solicitudes
@@ -23,6 +23,7 @@ authApi.interceptors.request.use((config) => {
 export const getGroups = () => authApi.get("/");
 export const getGroup = (groupId) => authApi.get(`/${groupId}/`);
 export const createGroup = (groupData) => authApi.post("/", groupData);
-export const getInfo = () => authApi.get("/panel");
+export const getInfoGroups = () => authApi.get("/menu");
+export const getInfoReports = (groupId) => authApi.get(`/menu/${groupId}/`);
 export const updateGroup = (groupId, groupData) => authApi.put(`/${groupId}/`, groupData);
 export const deleteGroup = (groupId) => authApi.delete(`/${groupId}/`);

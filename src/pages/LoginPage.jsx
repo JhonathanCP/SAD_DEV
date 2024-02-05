@@ -167,7 +167,7 @@ export function LoginPage() {
 
     return (
         <Container
-            style={{ background: `url(${FondoSvg})`, minHeight: '100vh' }}
+            style={{ background: `url(${FondoSvg})`, minHeight: '100vh', position: 'absolute'}}
             fluid
             className="d-flex align-items-center justify-content-center"
         >

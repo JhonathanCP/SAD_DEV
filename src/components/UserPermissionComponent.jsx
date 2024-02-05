@@ -15,6 +15,7 @@ export function UserPermissionComponent() {
     const [reports, setReports] = useState([]);
     const [selectedGroup, setSelectedGroup] = useState('');
     const [selectedReport, setSelectedReport] = useState('');
+    const [filteredReports, setFilteredReports] = useState([]);
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -39,9 +40,19 @@ export function UserPermissionComponent() {
             }
         };
 
+        const filterReports = () => {
+            setFilteredReports(reports.filter(report => report.groupId == selectedGroup));
+        };
+
+        // Llamadas de inicialización
         fetchUserData();
         fetchGroupsAndReports();
-    }, [id]);
+
+        // Filtrar informes solo si selectedGroup está definido
+        if (selectedGroup !== '') {
+            filterReports();
+        }
+    }, [id, selectedGroup, reports]);
 
 
     const handleRemoveGroup = async (group) => {
@@ -120,22 +131,8 @@ export function UserPermissionComponent() {
             <AdminNavBarComponent></AdminNavBarComponent>
             <Container fluid className='px-5 py-4'>
                 <div className="row">
-                    <div className="col-7">
+                    <div className="col-12">
                         <h2>Permisos de: {user.username}</h2>
-                    </div>
-                    <div className="col-3">
-                        <button className="btn btn-success" onClick={handleAddAllPermissions}>Agregar Todos los Permisos</button>
-                    </div>
-                    <div className="col-2">
-                        <button
-                            type="button"
-                            onClick={() => navigate(-1)}
-                            className="btn btn-secondary"
-                            style={{ marginLeft: '10px' }}
-                        // Condición para mostrar el botón solo si hay un ID
-                        >
-                            Cancelar
-                        </button>
                     </div>
                 </div>
                 <div className="mb-3">
@@ -166,7 +163,7 @@ export function UserPermissionComponent() {
                                 <option value="" disabled>
                                     Seleccione un reporte
                                 </option>
-                                {reports.map((report) => (
+                                {filteredReports.map((report) => (
                                     <option key={report.id} value={report.id}>
                                         {report.id}: {report.nombre}
                                     </option>
@@ -174,11 +171,32 @@ export function UserPermissionComponent() {
                             </select>
                         </div>
                         <div className="col-2">
-                            <button className="btn btn-primary" onClick={() => handleAddReport(selectedReport)}>Agregar Permiso</button>
+                            <button className="btn btn-primary" onClick={handleAddReport}>Agregar Permiso</button>
                         </div>
                     </div>
                 </div>
-                <div className="my-5">
+                <div className="mb-3">
+                    <div className="row justify-content-end">
+                        <div className="col-2">
+                            <button className="btn btn-success" onClick={handleAddAllPermissions}>Agregar Todos los Permisos</button>
+                        </div>
+                    </div>
+                </div>
+                <div className="mb-3">
+                    <div className="row justify-content-end">
+                        <div className="col-2">
+                            <button
+                                type="button"
+                                onClick={() => navigate(-1)}
+                                className="btn btn-secondary"
+                            // Condición para mostrar el botón solo si hay un ID
+                            >
+                                Cancelar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div className="my-1">
                     <h3>Permisos de Grupo:</h3>
                     <table className="table table-striped table-hover">
                         <thead>
@@ -217,7 +235,7 @@ export function UserPermissionComponent() {
                         </tbody>
                     </table>
                 </div>
-                <div className="my-5">
+                <div className="my-1">
                     <h3>Permisos de Reporte:</h3>
                     <table className="table table-striped table-hover">
                         <thead>
@@ -226,8 +244,11 @@ export function UserPermissionComponent() {
                                     <div className="col-1">
                                         <th>ID</th>
                                     </div>
-                                    <div className="col-9">
+                                    <div className="col-7">
                                         <th>Nombre</th>
+                                    </div>
+                                    <div className="col-2">
+                                        <th>Grupo</th>
                                     </div>
                                     <div className="col-2">
                                         <th>Acciones</th>
@@ -242,8 +263,11 @@ export function UserPermissionComponent() {
                                         <div className="col-1">
                                             <td>{report.id}</td>
                                         </div>
-                                        <div className="col-9">
+                                        <div className="col-7">
                                             <td>{report.nombre}</td>
+                                        </div>
+                                        <div className="col-2">
+                                            <td>{report.groupId ? groups.find(group => group.id === report.groupId)?.nombre : 'N/A'}</td>
                                         </div>
                                         <div className="col-2">
                                             <td>
