@@ -27,9 +27,9 @@ export function UserPermissionComponent() {
             }
         };
 
+        // Llamada para obtener grupos y reportes solo una vez al montar el componente
         const fetchGroupsAndReports = async () => {
             try {
-                // Obtener la lista de grupos y reportes al cargar el componente
                 const groupsResponse = await getGroups();
                 const reportsResponse = await getReports();
 
@@ -40,19 +40,17 @@ export function UserPermissionComponent() {
             }
         };
 
-        const filterReports = () => {
-            setFilteredReports(reports.filter(report => report.groupId == selectedGroup));
-        };
-
-        // Llamadas de inicialización
         fetchUserData();
         fetchGroupsAndReports();
+    }, [id]);
 
+    useEffect(() => {
         // Filtrar informes solo si selectedGroup está definido
         if (selectedGroup !== '') {
-            filterReports();
+            const filteredReports = reports.filter(report => report.groupId == selectedGroup);
+            setFilteredReports(filteredReports);
         }
-    }, [id, selectedGroup, reports]);
+    }, [selectedGroup, reports]);
 
 
     const handleRemoveGroup = async (group) => {

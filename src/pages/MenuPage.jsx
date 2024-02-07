@@ -8,11 +8,15 @@ import 'bootstrap-icons/font/bootstrap-icons.css';
 import Logo from '../assets/logo-essalud-blanco.svg';
 import LogoA from '../assets/logo-essalud.svg';
 import Img from '../assets/hero-img.svg';
-import { Container, Navbar, Nav, NavDropdown, Row, Col, Card } from 'react-bootstrap';
+import { Modal, Form, Button, Container, Navbar, Nav, NavDropdown, Row, Col, Card } from 'react-bootstrap';
 import 'aos/dist/aos.css';
 import AOS from 'aos';
 
 export function MenuPage() {
+    const [show, setShow] = useState(true);
+
+    const handleClose = () => {setShow(false); toast.success("Términos y condiciones de uso aceptados");}
+    const handleShow = () => setShow(true);
     const [grupos, setGrupos] = useState([]);
     const [usuario, setUsuario] = useState('');
     const [rol, setRol] = useState('');
@@ -161,6 +165,29 @@ export function MenuPage() {
                     </div>
                 </Row>
             </Container>
+            <Modal show={show} onHide={handleClose} size="xl" backdrop="static" keyboard={false}>
+                <Modal.Header>
+                    <Modal.Title>Términos y Condiciones de uso</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    {/* Embeber el PDF utilizando un iframe */}
+                    <iframe
+                        title="PDF Viewer"
+                        width="100%"
+                        height="700vh"
+                        src="https://drive.google.com/file/d/1-pN3ZL93lTpXEA8ERCq33EbX0NuMfalM/preview"
+                    ></iframe>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="secondary" onClick={handleLogout}>
+                        Declinar
+                    </Button>
+                    <Button variant="primary" onClick={handleClose}>
+                        Acepto los términos y condiciones
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+
         </Container>
     );
 }
