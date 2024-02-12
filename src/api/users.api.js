@@ -7,7 +7,7 @@ const URL =
 
 const authApi = axios.create({
     baseURL: 'https://sad.essalud.gob.pe/api/user/',
-    baseURL: 'http://10.0.28.15:4000/user/',
+    // baseURL: 'http://10.0.28.15:4000/user/',
 });
 
 // Interceptor para incluir el token en los encabezados de todas las solicitudes

@@ -64,6 +64,28 @@ export function LoginPage() {
         }
     };
 
+    const downloadManual = () => {
+        try {
+            // Obtén una URL directa del archivo desde Google Drive
+            const fileId = '1IvLyPA9sNH0_QfYvsbI_caeoEixvmKRq'; // Reemplaza con el ID de tu archivo en Google Drive
+            const fileUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
+    
+            // Crea un enlace invisible
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.target = '_blank'; // Abre en una nueva pestaña o ventana
+            link.rel = 'noopener noreferrer'; // Mejora la seguridad para evitar el "opener" de seguridad
+            link.click();
+    
+            handleClose();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Error al descargar el archivo:', error);
+            // Maneja el error según sea necesario
+        }
+    };
+    
+
     const handleChange = (e) => {
         setCredentials({
             ...credentials,
@@ -73,7 +95,7 @@ export function LoginPage() {
 
     return (
         <Container
-            style={{ background: `url(${FondoSvg})`, minHeight: '100vh', position: 'absolute'}}
+            style={{ background: `url(${FondoSvg})`, minHeight: '100vh', position: 'absolute' }}
             fluid
             className="d-flex align-items-center justify-content-center"
         >
@@ -86,6 +108,14 @@ export function LoginPage() {
                             Sistema institucional de EsSalud que pone a disposición los tableros de mando y control desarrollados con
                             business intelligence y business analytics para la toma de decisiones en el marco del gobierno de datos.
                         </p>
+                        <div >
+                            <Row >
+                                <Col lg={4} md={4} xs={12} className="d-flex justify-content-left align-items-left" >
+                                <Button variant="primary" type="submit" className="text-white w-100 mt-3" onClick={downloadManual}>
+                                    Descargar Manual de Usuario
+                            </Button></Col>
+                            </Row>
+                        </div>
                     </div>
                 </Col>
                 <Col lg={5} md={6} xs={12} className="d-flex flex-column align-items-center">
@@ -113,11 +143,12 @@ export function LoginPage() {
                                 </Button>
                             </div>
                             <UserRequestComponent show={showRequestModal} handleClose={handleCloseRequestModal} /> */}
-                            <div className="mt-3 text-center">
+                            <div className="mt-2 text-center">
                                 <Button variant="link" className="text-primary" onClick={handleShowRequestModal}>
                                     Solicitar Acceso
                                 </Button>
                             </div>
+                            {/* <div className="mt-2 text-center"><a href="mailto: gctic.gsit06@essalud.gob.pe" className="fw-light text-decoration-none">Consultas: gctic.gsit06@essalud.gob.pe</a></div> */}
                             <UserRegistrationComponent show={showRequestModal} handleClose={handleCloseRequestModal} />
                         </Form>
                     </Card>

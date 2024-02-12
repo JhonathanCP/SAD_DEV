@@ -165,12 +165,12 @@ export function MenuPage() {
                     </div>
                 </Row>
             </Container>
-            <Modal show={show} onHide={handleClose} size="xl" backdrop="static" keyboard={false}>
+            {/* <Modal show={show} onHide={handleClose} size="xl" backdrop="static" keyboard={false}>
                 <Modal.Header>
                     <Modal.Title>Términos y Condiciones de uso</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    {/* Embeber el PDF utilizando un iframe */}
+
                     <iframe
                         title="PDF Viewer"
                         width="100%"
@@ -186,7 +186,7 @@ export function MenuPage() {
                         Acepto los términos y condiciones
                     </Button>
                 </Modal.Footer>
-            </Modal>
+            </Modal> */}
 
         </Container>
     );
