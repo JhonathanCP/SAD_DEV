@@ -15,7 +15,7 @@ import AOS from 'aos';
 export function MenuPage() {
     const [show, setShow] = useState(true);
 
-    const handleClose = () => {setShow(false); toast.success("Términos y condiciones de uso aceptados");}
+    const handleClose = () => { setShow(false); toast.success("Términos y condiciones de uso aceptados"); }
     const handleShow = () => setShow(true);
     const [grupos, setGrupos] = useState([]);
     const [usuario, setUsuario] = useState('');
@@ -35,6 +35,13 @@ export function MenuPage() {
     };
 
     useEffect(() => {
+        const successMessage = localStorage.getItem('successMessage');
+        if (successMessage) {
+            // Display success message using toast or other notification mechanism
+            toast.success(successMessage);
+            // Clear the success message from localStorage
+            localStorage.removeItem('successMessage');
+        }
         AOS.init();
         const expirationTime = localStorage.getItem('expirationTime');
         if (expirationTime) {

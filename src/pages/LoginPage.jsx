@@ -9,6 +9,7 @@ import FondoSvg from '../assets/fondo.svg';
 import Logo from '../assets/logo-essalud.svg';
 import { UserRequestComponent } from '../components/UserRequestComponent'
 import { UserRegistrationComponent } from '../components/UserRegistrationComponent'
+import { ManualComponent } from '../components/ManualComponent';
 
 export function LoginPage() {
     const [credentials, setCredentials] = useState({
@@ -16,24 +17,28 @@ export function LoginPage() {
         password: '',
     });
     const [error, setError] = useState(null);
-    const [showModal, setShowModal] = useState(false);
     const [showRequestModal, setShowRequestModal] = useState(false); // Nuevo estado
-    const handleShowModal = () => setShowModal(true);
+    const [showManualModal, setShowManualModal] = useState(false);
     const handleShowRequestModal = () => setShowRequestModal(true); // Nuevo controlador
+    const handleManualModal = () => setShowManualModal(true); // Nuevo controlador
     const handleCloseRequestModal = () => setShowRequestModal(false); // Nuevo controlador
+    const handleCloseManualModal = () => setShowManualModal(false); // Nuevo controlador
     const navigate = useNavigate();
+
     useEffect(() => {
-        const script = document.createElement('script');
-        script.src = 'https://www.google.com/recaptcha/api.js?render=6LfJ-TkpAAAAAGk-luwLSzw3ihrxMprK85ckCalL';
-        script.async = true;
-        script.defer = true;
-        document.head.appendChild(script);
+        if (window.location.pathname === '/login') {
+            // Agrega el script de reCAPTCHA solo si estás en la página inicial
+            const script = document.createElement('script');
+            script.src = 'https://www.google.com/recaptcha/api.js?render=6LfJ-TkpAAAAAGk-luwLSzw3ihrxMprK85ckCalL';
+            script.async = true;
+            script.defer = true;
+            document.head.appendChild(script);
 
-        return () => {
-            // Cleanup: remove the script when the component unmounts
-            document.head.removeChild(script);
-        };
-
+            return () => {
+                // Cleanup: remove the script when the component unmounts
+                document.head.removeChild(script);
+            };
+        }
     }, []);
 
     const handleLogin = async (e) => {
@@ -55,36 +60,15 @@ export function LoginPage() {
             const expirationTime = jwtDecode(accessToken).exp;
             localStorage.setItem('access', accessToken);
             localStorage.setItem('expirationTime', expirationTime);
-            toast.success('Sesión iniciada correctamente.');
-            navigate('/menu');
+            localStorage.setItem('successMessage', 'Sesión iniciada correctamente.');
+            // Redirect to the new page
+            window.location.replace('/menu');
         } catch (error) {
             setError('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
             console.error('Credenciales incorrectas. Por favor, inténtalo de nuevo.', error);
             toast.error('Credenciales incorrectas. Por favor, inténtalo de nuevo.');
         }
     };
-
-    const downloadManual = () => {
-        try {
-            // Obtén una URL directa del archivo desde Google Drive
-            const fileId = '1IvLyPA9sNH0_QfYvsbI_caeoEixvmKRq'; // Reemplaza con el ID de tu archivo en Google Drive
-            const fileUrl = `https://drive.google.com/uc?export=download&id=${fileId}`;
-    
-            // Crea un enlace invisible
-            const link = document.createElement('a');
-            link.href = fileUrl;
-            link.target = '_blank'; // Abre en una nueva pestaña o ventana
-            link.rel = 'noopener noreferrer'; // Mejora la seguridad para evitar el "opener" de seguridad
-            link.click();
-    
-            handleClose();
-            document.body.removeChild(link);
-        } catch (error) {
-            console.error('Error al descargar el archivo:', error);
-            // Maneja el error según sea necesario
-        }
-    };
-    
 
     const handleChange = (e) => {
         setCredentials({
@@ -111,9 +95,9 @@ export function LoginPage() {
                         <div >
                             <Row >
                                 <Col lg={4} md={4} xs={12} className="d-flex justify-content-left align-items-left" >
-                                <Button variant="primary" type="submit" className="text-white w-100 mt-3" onClick={downloadManual}>
-                                    Descargar Manual de Usuario
-                            </Button></Col>
+                                    <Button className="text-light w-100 mt-3 fw-medium" onClick={handleManualModal}>
+                                        Ver Manual de Usuario
+                                    </Button></Col>
                             </Row>
                         </div>
                     </div>
@@ -150,6 +134,7 @@ export function LoginPage() {
                             </div>
                             {/* <div className="mt-2 text-center"><a href="mailto: gctic.gsit06@essalud.gob.pe" className="fw-light text-decoration-none">Consultas: gctic.gsit06@essalud.gob.pe</a></div> */}
                             <UserRegistrationComponent show={showRequestModal} handleClose={handleCloseRequestModal} />
+                            <ManualComponent show={showManualModal} handleClose={handleCloseManualModal} />
                         </Form>
                     </Card>
 

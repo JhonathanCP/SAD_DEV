@@ -11,11 +11,9 @@ import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { Toaster } from 'react-hot-toast';
 import PrivateRoutes from './components/PrivateRoutes';
 import AdminRoutes from './components/AdminRoutes';
-import './App.css'
 import { EditUserComponent } from './components/EditUserComponent';
 
 function App() {
-
     return (
         <BrowserRouter>
             <Routes>
